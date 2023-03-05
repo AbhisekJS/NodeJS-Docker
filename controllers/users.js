@@ -32,15 +32,16 @@ const addUser = (req,res) =>{
     .catch(err => console.log(err))
 }
 
-const updateUser = (req,res,next)=>{
-    const {userId,updatedName,updatedEmail}=req.body
+const updateUser = (req,res)=>{
+    const userId = req.params.userId;
+    const {name,email}=req.body
     User.findByPk(userId)
     .then(user => {
         if (!user){
             return res.status(400).json({message: 'User Not Found'})
         }
-        user.name = updatedName
-        user.email = updatedEmail
+        user.name = name
+        user.email = email
         return user.save()
     })
     .then(result => {
